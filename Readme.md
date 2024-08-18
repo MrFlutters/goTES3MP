@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/HotaruBlaze/goTES3MP/main/autoinsta
 # Install Instructions - Standalone
 1. Download the latest build with accompanying tes3mp-scripts.zip 
 2. Extract and copy the custom and lib folders to `server` folder.
-3. Add the following to your server/customScripts.lua file, making sure DataManager is above the following
+3. Add the following to your server/customScripts.lua file.
 ```
 IrcBridge = require("custom/IrcBridge/IrcBridge")
 goTES3MP = require("custom/goTES3MP/main")
