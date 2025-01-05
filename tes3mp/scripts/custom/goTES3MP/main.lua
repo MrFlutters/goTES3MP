@@ -109,7 +109,7 @@ goTES3MP.GetServerID = function()
         config.goTES3MP.server_id = goTES3MPModules.utils.randomString(16) 
         goTES3MPConfig.SaveConfig(config)
     end
-    return tostring(config.goTES3MP.serverid)
+    return tostring(config.goTES3MP.server_id)
 end
 
 -- Function to get the loaded modules.

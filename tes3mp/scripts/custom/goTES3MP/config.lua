@@ -6,7 +6,7 @@ local configFile = "custom/goTES3MPConfig.json"
 
 local defaultConfig = {
     goTES3MP = {
-        serverid = "", -- Server ID
+        server_id = "", -- Server ID
         configVersion = 1, -- Configuration version
         defaultDiscordServer = "", -- Default Discord server
         defaultDiscordChannel = "", -- Default Discord channel
