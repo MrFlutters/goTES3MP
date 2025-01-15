@@ -33,6 +33,10 @@ end
 goTES3MPVPNChecker.whitelistController = function(pid, cmd)
     if cmd[2] == "add" then
         local username = string.lower(tableHelper.concatenateFromIndex(cmd, 3))
+        if vpnWhitelist[string.lower(username)] then
+            tes3mp.SendMessage(pid, color.RebeccaPurple .."[VPN Whitelist] " .. color.Default .. "Player \""..tableHelper.concatenateFromIndex(cmd, 3).."\" is already whitelisted\n",false)
+            return
+        end
         vpnWhitelist[string.lower(username)] = true
         goTES3MPVPNChecker.SaveConfig(vpnWhitelist)
         tes3mp.SendMessage(pid, color.RebeccaPurple .."[VPN Whitelist] " .. color.Default .. "Player \""..tableHelper.concatenateFromIndex(cmd, 3).."\" was added to the whitelist\n",false)
@@ -40,6 +44,10 @@ goTES3MPVPNChecker.whitelistController = function(pid, cmd)
 
     if cmd[2] == "remove" then
         local username = string.lower(tableHelper.concatenateFromIndex(cmd, 3))
+        if not vpnWhitelist[string.lower(username)] then
+            tes3mp.SendMessage(pid, color.RebeccaPurple .."[VPN Whitelist] " .. color.Default .. "Player \""..tableHelper.concatenateFromIndex(cmd, 3).."\" is not whitelisted\n",false)
+            return
+        end
         vpnWhitelist[string.lower(username)] = false
         goTES3MPVPNChecker.SaveConfig(vpnWhitelist)
         tes3mp.SendMessage(pid, color.RebeccaPurple .."[VPN Whitelist] " .. color.Default .. "Player \""..tableHelper.concatenateFromIndex(cmd, 3).."\" was removed from the whitelist\n",false)
@@ -120,11 +128,15 @@ goTES3MP_Command.addCommandHandler(
     function(commandArgs)
         local username = string.lower(commandArgs["username"])
         if username then 
-            vpnWhitelist[string.lower(username)] = true
+            if vpnWhitelist[username] then
+                goTES3MP_Command.sendDiscordSlashResponse(string.format("`Player \"%s\" is already whitelisted`", username), commandArgs)
+                return
+            end
+            vpnWhitelist[username] = true
             goTES3MPVPNChecker.SaveConfig(vpnWhitelist)
-            goTES3MP_Command.sendDiscordSlashResponse(string.format("Player \"%s\" has been added to the whitelist", username), commandArgs)
+            goTES3MP_Command.sendDiscordSlashResponse(string.format("`Player \"%s\" has been added to the whitelist`", username), commandArgs)
         else
-            goTES3MP_Command.sendDiscordSlashResponse("Player name is missing or invalid", commandArgs)
+            goTES3MP_Command.sendDiscordSlashResponse("`Player name is missing or invalid`", commandArgs)
         end
     end,
     {
@@ -134,15 +146,19 @@ goTES3MP_Command.addCommandHandler(
 
 goTES3MP_Command.addCommandHandler(
     "unwhitelist",
-    "Remove player to whitelist",
+    "Remove player from whitelist",
     function(commandArgs)
         local username = string.lower(commandArgs["username"])
         if username then
-            vpnWhitelist[string.lower(username)] = nil
+            if not vpnWhitelist[username] then
+                goTES3MP_Command.sendDiscordSlashResponse(string.format("`Player \"%s\" is not whitelisted`", username), commandArgs)
+                return
+            end
+            vpnWhitelist[username] = nil
             goTES3MPVPNChecker.SaveConfig(vpnWhitelist)
-            goTES3MP_Command.sendDiscordSlashResponse(string.format("Player \"%s\" has been removed from the whitelist", username), commandArgs)
+            goTES3MP_Command.sendDiscordSlashResponse(string.format("`Player \"%s\" has been removed from the whitelist`", username), commandArgs)
         else
-            goTES3MP_Command.sendDiscordSlashResponse("Player name is missing or invalid", commandArgs)
+            goTES3MP_Command.sendDiscordSlashResponse("`Player name is missing or invalid`", commandArgs)
         end
     end,
     {
@@ -152,5 +168,7 @@ goTES3MP_Command.addCommandHandler(
 
 customCommandHooks.registerCommand("whitelist", goTES3MPVPNChecker.whitelistController)
 customCommandHooks.setRankRequirement("whitelist", 1)
+
+vpnWhitelist = goTES3MPVPNChecker.LoadConfig()
 
 return goTES3MPVPNChecker
