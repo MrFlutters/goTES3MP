@@ -14,6 +14,9 @@ local commandHandlers = {}
 ---@param args table
 goTES3MP_Command.addCommandHandler = function(commandName, description, handler, args)
     tes3mp.LogMessage(enumerations.log.INFO, "[Discord]: Adding command handler for " .. commandName)
+    if commandHandlers[commandName] then
+        commandHandlers[commandName] = nil
+    end
     commandHandlers[commandName] = {
         command = commandName,
         description = description,
