@@ -10,6 +10,10 @@ import (
 
 func sendRawDiscordMessage(rawDiscordStruct *protocols.RawDiscordStruct) bool {
 	// check if discord is actually connected first.
+	if DiscordSession == nil {
+		log.Errorln("Discord not connected, Message was not sent.")
+		return false
+	}
 	if DiscordSession.DataReady {
 		_, err := DiscordSession.ChannelMessageSend(rawDiscordStruct.Channel, rawDiscordStruct.Message)
 		checkError("rawDiscordMessage", err)
