@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Read Lua file content
-	luaContent, err := os.ReadFile("../tes3mp/scripts/custom/IrcBridge/IrcBridge.lua")
+	luaContent, err := os.ReadFile("tes3mp/scripts/custom/IrcBridge/IrcBridge.lua")
 	if err != nil {
 		fmt.Println("Error reading Lua file:", err)
 		return
@@ -34,7 +34,7 @@ var ircBridgeVersion = "%s"
 `, version)
 
 	// Write the generated Go code to version.go
-	if err := os.WriteFile("version.go", []byte(fileContent), 0644); err != nil {
+	if err := os.WriteFile("src/version.go", []byte(fileContent), 0644); err != nil {
 		fmt.Println("Error writing version:", err)
 		return
 	}
