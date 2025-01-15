@@ -1,9 +1,5 @@
 local socket = nil
-if package.config:sub(1,1) == "/" then
-	socket = require "socket-lanes"
-else
-	socket = require "socket"
-end
+socket = require "socket"
 
 local error = error
 local setmetatable = setmetatable
