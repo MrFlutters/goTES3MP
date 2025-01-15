@@ -32,4 +32,17 @@ getPlayers.getPlayers = function()
     end
 end
 
+goTES3MP_Command.addCommandHandler(
+    "players",
+    "List Players",
+    function(commandArgs)
+        if goTES3MPModules["getPlayers"] ~= nil then
+            local playerList = goTES3MPModules.getPlayers.getPlayers()
+            goTES3MP_Command.sendDiscordSlashResponse(playerList, commandArgs)
+        else
+            goTES3MP_Command.sendDiscordSlashResponse("Module not found or loaded", commandArgs)
+        end
+    end
+)
+
 return getPlayers

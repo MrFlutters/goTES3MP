@@ -55,4 +55,19 @@ getJournal.GetJournalEntries = function(playerName, questID)
     end
 end
 
+goTES3MP_Command.addCommandHandler(
+    "getjournal",
+    "get a player's Journal Entry",
+    function(commandArgs)
+        local username = commandArgs["username"]
+        local questid = commandArgs["questid"]
+        local questList = getJournal.GetJournalEntries(username, questid)
+        commands.sendDiscordSlashResponse(questList, commandArgs)
+    end,
+    {
+        {name = "username", description = "The name of the player.", required = true},
+        {name = "questid", description = "the id of the quest", required = true}
+    }
+)
+
 return getJournal

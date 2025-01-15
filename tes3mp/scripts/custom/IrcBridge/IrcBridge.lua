@@ -14,7 +14,7 @@ local goTES3MPModules = nil
 
 local IrcBridge = {}
 
-IrcBridge.version = "v0.4.1-goTES3MP"
+IrcBridge.version = "v0.5.0-goTES3MP"
 IrcBridge.scriptName = "IrcBridge"
 IrcBridge.debugMode = false
 IrcBridge.maxMessageLength = 2048

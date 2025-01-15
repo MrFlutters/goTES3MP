@@ -114,6 +114,42 @@ customEventHooks.registerHandler(
     end
 )
 
+goTES3MP_Command.addCommandHandler(
+    "whitelist",
+    "Add player to whitelist",
+    function(commandArgs)
+        local username = string.lower(commandArgs["username"])
+        if username then 
+            vpnWhitelist[string.lower(username)] = true
+            goTES3MPVPNChecker.SaveConfig(vpnWhitelist)
+            goTES3MP_Command.sendDiscordSlashResponse(string.format("Player \"%s\" has been added to the whitelist", username), commandArgs)
+        else
+            goTES3MP_Command.sendDiscordSlashResponse("Player name is missing or invalid", commandArgs)
+        end
+    end,
+    {
+        {name = "username", description = "The name of the player.", required = true}
+    }
+)
+
+goTES3MP_Command.addCommandHandler(
+    "unwhitelist",
+    "Remove player to whitelist",
+    function(commandArgs)
+        local username = string.lower(commandArgs["username"])
+        if username then
+            vpnWhitelist[string.lower(username)] = nil
+            goTES3MPVPNChecker.SaveConfig(vpnWhitelist)
+            goTES3MP_Command.sendDiscordSlashResponse(string.format("Player \"%s\" has been removed from the whitelist", username), commandArgs)
+        else
+            goTES3MP_Command.sendDiscordSlashResponse("Player name is missing or invalid", commandArgs)
+        end
+    end,
+    {
+        {name = "username", description = "The name of the player.", required = true}
+    }
+)
+
 customCommandHooks.registerCommand("whitelist", goTES3MPVPNChecker.whitelistController)
 customCommandHooks.setRankRequirement("whitelist", 1)
 
