@@ -62,7 +62,7 @@ goTES3MP_Command.addCommandHandler(
         local username = commandArgs["username"]
         local questid = commandArgs["questid"]
         local questList = getJournal.GetJournalEntries(username, questid)
-        commands.sendDiscordSlashResponse(questList, commandArgs)
+        goTES3MP_Command.sendDiscordSlashResponse(questList, commandArgs)
     end,
     {
         {name = "username", description = "The name of the player.", required = true},
